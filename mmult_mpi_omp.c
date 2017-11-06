@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
     printf("Matrix A:\n");
     for (int i = 0; i < a_row; i++) {
       for (int j = 0; j < a_col; j++) {
-        printf("%d ", aa[i * a_row + j]);
+        printf("%.2f ", aa[i * a_row + j]);
       }
       printf("\n");
     }
@@ -55,7 +55,7 @@ int main(int argc, char* argv[])
     printf("Matrix B:\n");
     for (int i = 0; i < a_col; i++) {
       for (int j = 0; j < b_col; j++) {
-        printf("%d ", bb[i * a_col + j]);
+        printf("%.2f ", bb[i * a_col + j]);
       }
       printf("\n");
     }
