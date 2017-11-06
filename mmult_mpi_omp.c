@@ -31,6 +31,9 @@ int main(int argc, char* argv[])
 
   /* insert other global variables here */
   double *buffer;
+  int anstype, current_row;
+  // for accumulating the sum
+  double *result;
 
   MPI_Init(&argc, &argv);
   MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
@@ -117,10 +120,36 @@ int main(int argc, char* argv[])
       endtime = MPI_Wtime();
       printf("%f\n",(endtime - starttime));
       cc2  = malloc(sizeof(double) * nrows * ncols);
-      mmult(cc2, aa, nrows, ncols, bb, ncols, nrows);
-      compare_matrices(cc2, cc1, nrows, nrows);
+      mmult(cc2, aa, a_row, a_col, bb, a_col, b_col);
+      compare_matrices(cc2, cc1, nrows, ncols);
     } else {
       // Slave Code goes here
+      bb = (double *) malloc(sizeof(double) * a_col * b_col);
+      MPI_Bcast(bb, a_col * b_col, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+
+      // if there are more rows to process
+      if (myid <= nrows) {
+        // an infinite loop
+        while(1) {
+          MPI_Recv(buffer, a_col, MPI_DOUBLE, 0, MPI_ANY_TAG,
+              MPI_COMM_WORLD, &status);
+          if (status.MPI_TAG == 0) {    // STOP signal from master
+            break;
+          }
+
+          // which row do we get from the master?
+          current_row = status.MPI_TAG;
+          result = (double *) malloc(sizeof(double) * ncols);
+
+          for (int i = 0; i < ncols; i++) {
+            for (int j = 0; j < a_col, j++) {
+              result[i] += buffer[j] * bb[j * ncols + i];
+            }
+          }
+
+          MPI_Send(result, ncols, MPI_DOUBLE, 0, current_row, MPI_COMM_WORLD);
+        }
+      }
     }
   } else {
     fprintf(stderr, "Usage matrix_times_vector <size>\n");
