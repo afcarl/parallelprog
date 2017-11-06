@@ -81,7 +81,7 @@ int main(int argc, char* argv[])
       // broadcast the matrix bb to all slaves
       MPI_Bcast(bb, a_col * b_col, MPI_DOUBLE, 0, MPI_COMM_WORLD);
       // sending a row of aa to slaves at a time
-      for (int i = 0; i < min(numprocs - 1, nrows), i++) {
+      for (int i = 0; i < min(numprocs - 1, nrows); i++) {
         for (int j = 0; j < a_col; j++) {
           buffer[j] = aa[i * a_col + j];
         }
@@ -142,7 +142,7 @@ int main(int argc, char* argv[])
           result = (double *) malloc(sizeof(double) * ncols);
 
           for (int i = 0; i < ncols; i++) {
-            for (int j = 0; j < a_col, j++) {
+            for (int j = 0; j < a_col; j++) {
               result[i] += buffer[j] * bb[j * ncols + i];
             }
           }
