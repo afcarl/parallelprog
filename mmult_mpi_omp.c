@@ -22,6 +22,9 @@ int main(int argc, char* argv[])
   double *bb;	/* the B matrix */
   double *cc1;	/* A x B computed using the omp-mpi code you write */
   double *cc2;	/* A x B computed using the conventional algorithm */
+
+  int a_row, a_col, b_col;
+
   int myid, numprocs;
   double starttime, endtime;
   MPI_Status status;
@@ -31,15 +34,21 @@ int main(int argc, char* argv[])
   MPI_Comm_rank(MPI_COMM_WORLD, &myid);
   if (argc > 1) {
 
-    // nrows = atoi(argv[1]);
-    // ncols = nrows;
+    a_row = atoi(argv[1]);
+    a_col = atoi(argv[2]);
+    b_col = atoi(argv[3]);
+
+    printf("The matrices' dimensions are %d x %d and %d x %d.\n", a_row, a_col, a_col, b_col);
+
+    /**
     if (myid == 0) {
       // Master Code goes here
       aa = gen_matrix(nrows, ncols);
       bb = gen_matrix(ncols, nrows);
       cc1 = malloc(sizeof(double) * nrows * nrows); 
       starttime = MPI_Wtime();
-      /* Insert your master code here to store the product into cc1 */
+
+      // Insert your master code here to store the product into cc1
       endtime = MPI_Wtime();
       printf("%f\n",(endtime - starttime));
       cc2  = malloc(sizeof(double) * nrows * nrows);
@@ -52,5 +61,6 @@ int main(int argc, char* argv[])
     fprintf(stderr, "Usage matrix_times_vector <size>\n");
   }
   MPI_Finalize();
+  */
   return 0;
 }
