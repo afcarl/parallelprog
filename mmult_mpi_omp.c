@@ -40,6 +40,26 @@ int main(int argc, char* argv[])
 
     printf("The matrices' dimensions are %d x %d and %d x %d.\n", a_row, a_col, a_col, b_col);
 
+    // testing if the matrices are generated correctly
+    aa = gen_matrix(a_row, a_col);
+    bb = gen_matrix(a_col, b_col);
+
+    printf("Matrix A:\n");
+    for (int i = 0; i < a_row; i++) {
+      for (int j = 0; j < a_col; j++) {
+        printf("%d ", aa[i * a_row + j]);
+      }
+      printf("\n");
+    }
+
+    printf("Matrix B:\n");
+    for (int i = 0; i < a_col; i++) {
+      for (int j = 0; j < b_col; j++) {
+        printf("%d ", bb[i * a_col + j]);
+      }
+      printf("\n");
+    }
+
     /**
     if (myid == 0) {
       // Master Code goes here
