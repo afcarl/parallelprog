@@ -30,8 +30,9 @@ int main(int argc, char* argv[])
   MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
   MPI_Comm_rank(MPI_COMM_WORLD, &myid);
   if (argc > 1) {
-    nrows = atoi(argv[1]);
-    ncols = nrows;
+
+    // nrows = atoi(argv[1]);
+    // ncols = nrows;
     if (myid == 0) {
       // Master Code goes here
       aa = gen_matrix(nrows, ncols);
